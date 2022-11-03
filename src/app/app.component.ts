@@ -10,7 +10,7 @@ import { IEmployee } from './iemployee';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit,OnDestroy {
-  title = 'employee-manager-app';
+  title = 'Employee Management Application';
   
   sub!:Subscription; //subscription variable
 
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit,OnDestroy {
 
   ngOnInit():void{
     this.getEmployees(); // call the api on initialisation
+    this.getEmployees2(); // set the employee variable
   }
 
   private getEmployees():void{
