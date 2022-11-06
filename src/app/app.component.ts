@@ -48,4 +48,30 @@ export class AppComponent implements OnInit,OnDestroy {
     this.sub.unsubscribe(); //unscribing
   }
 
+  public onOpenModel(employee:IEmployee|null,mode:string):void{
+  
+    const displayContainer = document.getElementById('main-container'); //get the container to display the modal
+
+    const btn = document.createElement('button'); // by default btn is of type submit
+    btn.type='button'; //set the type of btn
+    btn.style.display='none'; // hide the button
+    btn.setAttribute('data-toggle','modal'); //set the data-toggle property to modal
+    
+    //check the mode to display the appropriate model 
+    if(mode==='add'){
+      btn.setAttribute('data-target','#employeeAddModal');
+    }else if (mode==='delete')
+    {
+      btn.setAttribute('data-target','#employeeDeleteModal');
+    }else if (mode==='update'){
+      btn.setAttribute('data-target','#employeeUpdateModal');
+    }
+    displayContainer?.appendChild(btn);
+    
+    console.log(btn); // display the dynamic button created in console
+
+    btn.click();
+
+  }
+
 }
