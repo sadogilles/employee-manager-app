@@ -63,6 +63,10 @@ export class AppComponent implements OnInit,OnDestroy {
     }else if (mode==='delete')
     {
       btn.setAttribute('data-target','#employeeDeleteModal');
+      //get the employeeid
+    
+      this.employeeService.deleteEmployee(employee?.id);
+
     }else if (mode==='update'){
       btn.setAttribute('data-target','#employeeUpdateModal');
     }
