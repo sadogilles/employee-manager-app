@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from './employee.service';
 import { IEmployee } from './iemployee';
@@ -10,6 +11,7 @@ import { IEmployee } from './iemployee';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit,OnDestroy {
+
   title = 'Employee Management Application';
   
   sub!:Subscription; //subscription variable
@@ -63,9 +65,6 @@ export class AppComponent implements OnInit,OnDestroy {
     }else if (mode==='delete')
     {
       btn.setAttribute('data-target','#employeeDeleteModal');
-      //get the employeeid
-    
-      this.employeeService.deleteEmployee(employee?.id);
 
     }else if (mode==='update'){
       btn.setAttribute('data-target','#employeeUpdateModal');
@@ -76,6 +75,21 @@ export class AppComponent implements OnInit,OnDestroy {
 
     btn.click();
 
+  }
+
+  onAddEmployee(addForm: NgForm) {
+    console.log(addForm.value);
+    this.employeeService.addEmployee(addForm.value).subscribe(
+    {
+      next:employee=>{
+          console.log(employee);
+          this.getEmployees();
+      },
+      error:err=>{
+        alert(err.message);
+      }
+    });
+    document.getElementById('add-modal-close-btn')?.click();
   }
 
 }
