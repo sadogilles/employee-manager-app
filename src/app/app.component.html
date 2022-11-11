@@ -124,10 +124,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      <form #modifyForm="ngForm" (ngSubmit)="onModifyEmployee(modifyForm.value)">
+      <form #modifyForm="ngForm">
         <div class="modal-body">    
             <!--we added an id input because in the backend hibernate requires a complete model structure to do an update else a post will be done-->
-            <input type="hidden" name="id" ngModel="{{editEmployee?.id}}" />
+            <input type="hidden" name="id" ngModel="{{editEmployee?.id}}" required/>
             <div class="form-group">
               <label for="name" class="col-form-label">Name:</label>
               <input type="text" class="form-control" name="name" ngModel="{{editEmployee?.name}}" required>
@@ -155,7 +155,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modal-update-add-button">Close</button>
-          <button type="submit" class="btn btn-primary" [disabled]="modifyForm.invalid">Save Changes</button>
+          <button type="submit" class="btn btn-primary" [disabled]="modifyForm.pristine" (click)="onModifyEmployee(modifyForm.value)">Save Changes</button>
         </div>
       </form>
     </div>
