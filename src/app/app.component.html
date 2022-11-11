@@ -106,14 +106,14 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add-modal-close-btn">Close</button>
-            <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid"  >Create Employee</button>
+            <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Create Employee</button>
           </div>
         </form>
         
       </div>
         
       </div>
-    </div>
+</div>
 <!-- Modal template to update an employee-->
 <div class="modal fade" id="employeeUpdateModal" tabindex="-1" aria-labelledby="employeeUpdateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -124,39 +124,40 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <form>
+      <form #modifyForm="ngForm" (ngSubmit)="onModifyEmployee(modifyForm.value)">
+        <div class="modal-body">    
+            <!--we added an id input because in the backend hibernate requires a complete model structure to do an update else a post will be done-->
+            <input type="hidden" name="id" ngModel="{{editEmployee?.id}}" />
             <div class="form-group">
-              <label for="recipient-name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" id="employee-name">
+              <label for="name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" name="name" ngModel="{{editEmployee?.name}}" required>
             </div>
             <div class="form-group">
-              <label for="message-text" class="col-form-label">Email:</label>
-              <input class="form-control" id="employee-text" type="text">
+              <label for="email" class="col-form-label">Email:</label>
+              <input class="form-control" type="text" name="email" ngModel="{{editEmployee?.email}}" required>
             </div>
             <div class="form-group">
-                <label for="message-text" class="col-form-label">Phone Number:</label>
-                <input class="form-control" id="employee-phone" type="text" />
+                <label for="phone" class="col-form-label">Phone Number:</label>
+                <input class="form-control" type="text" name="phone" ngModel="{{editEmployee?.phone}}" required/>
             </div>
             <div class="form-group">
-                <label for="message-text" class="col-form-label"> Code :</label>
-                <input class="form-control" id="employee-code" type="text" />
+                <label for="employeeCode" class="col-form-label"> Code :</label>
+                <input class="form-control"  type="text"  name="employeeCode" ngModel="{{editEmployee?.employeeCode}}" disabled/>
             </div>
             <div class="form-group">
-                <label for="message-text" class="col-form-label"> Job Title :</label>
-                <input class="form-control" id="employee-jobTitle" type="text"/>
+                <label for="jobTitle" class="col-form-label"> Job Title :</label>
+                <input class="form-control"  type="text" name="jobTitle" ngModel="{{editEmployee?.jobTitle}}" required/>
             </div>
             <div class="form-group">
-                <label for="message-text" class="col-form-label"> Image Url :</label>
-                <input class="form-control" id="employee-imageUrl" type="text" />
+                <label for="imageUrl" class="col-form-label"> Image Url :</label>
+                <input class="form-control" type="text" name="imageUrl" ngModel="{{editEmployee?.imageUrl}}" required/>
             </div>
-          </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modal-update-add-button">Close</button>
+          <button type="submit" class="btn btn-primary" [disabled]="modifyForm.invalid">Save Changes</button>
         </div>
-      </div>
+      </form>
     </div>
 </div>
 
