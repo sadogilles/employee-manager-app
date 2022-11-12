@@ -12,14 +12,13 @@ import { IEmployee } from './iemployee';
 })
 export class AppComponent implements OnInit,OnDestroy {
 
-
   title = 'Employee Management Application';
   
   sub!:Subscription; //subscription variable
 
   public employeeList:IEmployee[]=[];
   
-  public editEmployee!: IEmployee | null;
+  public editEmployee!: IEmployee | null; // ! means i will initialize the employee later | is or operator
 
   constructor(private employeeService:EmployeeService){}
   
@@ -68,10 +67,10 @@ export class AppComponent implements OnInit,OnDestroy {
     }else if (mode==='delete')
     {
       btn.setAttribute('data-target','#employeeDeleteModal');
-    }else if (mode==='update')
-    {
+
+    }else if (mode==='update'){
       btn.setAttribute('data-target','#employeeUpdateModal');
-      this.editEmployee=employee;
+      this.editEmployee=employee; // get the employee to display in ui
       
     }
     displayContainer?.appendChild(btn);
@@ -83,24 +82,24 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
   onAddEmployee(addForm: NgForm) {
-    
-    console.log(addForm.value); //show the element of the object
-    
+    console.log(addForm.value);
     this.employeeService.addEmployee(addForm.value).subscribe(
     {
       next:employee=>{
           console.log(employee);
-          this.getEmployees(); //refresh the page data
+          this.getEmployees();
+          addForm.reset(); // reset the form as during the addition of a new employee the data on the form is preceived
       },
       error:err=>{
         alert(err.message);
+        addForm.reset();
       }
     });
     document.getElementById('add-modal-close-btn')?.click(); //close the form by clicking the X button
   }
 
   onModifyEmployee(modifyFormData:IEmployee) {
-    console.log(modifyFormData); // login the data
+    console.log(modifyFormData); 
 
     this.employeeService.updateEmployee(modifyFormData).subscribe({
       next:employee=>{
