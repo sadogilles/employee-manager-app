@@ -160,6 +160,7 @@
       </form>
     </div>
 </div>
+</div>
 
 <!--Model template to delete an employee-->
 <div class="modal fade" id="employeeDeleteModal" tabindex="-1" aria-labelledby="employeeDeleteModalLabel" aria-hidden="true">
@@ -174,14 +175,16 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
-              <h6 class="modal-title" id="exampleModalLabel"> Are you sure you want to delete Employee ? </h6>
+              <h6 class="modal-title" id="exampleModalLabel"> Are you sure you want to delete Employee ?  <i>{{deleteEmployee?.name}} </i></h6>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-          <button type="button" class="btn btn-danger">Yes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="delete-modal-close-btn-tag">No</button>
+          <button type="button" class="btn btn-danger" (click)="onDeleteEmployee()">Yes</button>
         </div>
       </div>
     </div>
 </div>
+
+           

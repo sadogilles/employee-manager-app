@@ -12,6 +12,7 @@ import { IEmployee } from './iemployee';
 })
 export class AppComponent implements OnInit,OnDestroy {
 
+
   title = 'Employee Management Application';
   
   sub!:Subscription; //subscription variable
@@ -19,6 +20,8 @@ export class AppComponent implements OnInit,OnDestroy {
   public employeeList:IEmployee[]=[];
   
   public editEmployee!: IEmployee | null; // ! means i will initialize the employee later | is or operator
+
+  public deleteEmployee!:IEmployee | null;
 
   constructor(private employeeService:EmployeeService){}
   
@@ -62,11 +65,16 @@ export class AppComponent implements OnInit,OnDestroy {
     btn.setAttribute('data-toggle','modal'); //set the data-toggle property to modal
     
     //check the mode to display the appropriate model 
-    if(mode==='add'){
+    if (mode==='add')
+    {
       btn.setAttribute('data-target','#employeeAddModal');
-    }else if (mode==='delete')
+      this.deleteEmployee = employee;
+
+    }
+    if (mode==='delete')
     {
       btn.setAttribute('data-target','#employeeDeleteModal');
+      this.deleteEmployee = employee;
 
     }else if (mode==='update'){
       btn.setAttribute('data-target','#employeeUpdateModal');
@@ -110,6 +118,17 @@ export class AppComponent implements OnInit,OnDestroy {
     });
 
     document.getElementById('modal-update-add-button')?.click();
+  }
+
+  onDeleteEmployee() :void{
+    
+    console.log('delete employee : '+this.deleteEmployee?.id); //delete-modal-close-btn-tag
+    this.employeeService.deleteEmployee(this.deleteEmployee?.id).subscribe({
+      next:employee=>{console.log('employee with id : '+this.deleteEmployee?.id +'will be deleted'); this.getEmployees()},
+      error:err=> {alert(err.message)}
+    });
+
+    document.getElementById('delete-modal-close-btn-tag')?.click();
   }
 
 }
