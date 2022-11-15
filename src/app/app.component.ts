@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { EmployeeService } from './employee.service';
 import { IEmployee } from './iemployee';
 
@@ -18,17 +18,34 @@ export class AppComponent implements OnInit,OnDestroy {
   sub!:Subscription; //subscription variable
 
   public employeeList:IEmployee[]=[];
+
+  public filteredEmployee:IEmployee[]=this.employeeList;
+  private _employeeFilter:string = ''; //field is empty, if you add data input field will contain the data
   
   public editEmployee!: IEmployee | null; // ! means i will initialize the employee later | is or operator
 
   public deleteEmployee!:IEmployee | null;
 
+
   constructor(private employeeService:EmployeeService){}
   
+  get employeeFilter(){ //employeeFilter in template is bind to this property [(ngModel)]="employeeFilter"
+    return this._employeeFilter;
+  }
 
+  set employeeFilter(filter:string){//employeeFilter in template is bind to this property [(ngModel)]="employeeFilter" // the filter parameter contains the value of input field employeeFilter in html
+    this._employeeFilter=filter;
+
+    this.filteredEmployee = this.performEmployeeFilter(filter);
+  }
+
+   public performEmployeeFilter(filter:string){
+        return this.employeeList.filter((e)=> {return e.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())});
+   }
   ngOnInit():void{
     this.getEmployees(); // call the api on initialisation
-    this.getEmployees2(); // set the employee variable
+    // this.getEmployees2(); // set the employee variable
+    // this._employeeFilter='emma';
   }
 
   private getEmployees():void{
@@ -75,6 +92,7 @@ export class AppComponent implements OnInit,OnDestroy {
     {
       btn.setAttribute('data-target','#employeeDeleteModal');
       this.deleteEmployee = employee;
+
 
     }else if (mode==='update'){
       btn.setAttribute('data-target','#employeeUpdateModal');
@@ -132,3 +150,5 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
 }
+
+

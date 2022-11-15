@@ -17,7 +17,7 @@
                 </div>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="employeeFilter" name="search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search Employee</button>
             </form>
             </div>
@@ -27,7 +27,7 @@
 <!-- ?.email  displays error if the email isnot loaded yet or doesnot exist yet-->
   <div class="container" id="main-container">
     <div class="row">
-        <div class="col-md-6 col-xl-3" *ngFor="let employee of employeeList">
+        <div class="col-md-6 col-xl-3" *ngFor="let employee of filteredEmployee" >
             <div class="card m-b-30">
                 <div class="card-body row">
                     <div class="col-6">
