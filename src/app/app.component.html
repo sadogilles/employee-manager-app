@@ -17,7 +17,7 @@
                 </div>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="employeeFilter" name="search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="employeeFilter" name="search"> <!--employeeFilter is a property getter and setter , it call the respective function as it data changes-->
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search Employee</button>
             </form>
             </div>
@@ -59,7 +59,7 @@
 </div>
 
 <!--display block when no employee is found-->
-<div class="col-lg-12 col-md-12 col-xl-12" *ngIf="employeeList.length == 0 ">
+<div class="col-lg-12 col-md-12 col-xl-12" *ngIf="employeeList?.length == 0 ">
     <div class="alert alert-info" role="alert">
         <h4 class="alert-heading"> NO EMPLOYEES !</h4>
         <p>Opps ! No Employee were found</p>

@@ -19,13 +19,13 @@ export class AppComponent implements OnInit,OnDestroy {
 
   public employeeList:IEmployee[]=[];
 
-  public filteredEmployee:IEmployee[]=this.employeeList;
-  private _employeeFilter:string = ''; //field is empty, if you add data input field will contain the data
+  public filteredEmployee:IEmployee[]=[];
+
+  private _employeeFilter!:string; //field is empty, if you add data input field will contain the data as getter is called 
   
   public editEmployee!: IEmployee | null; // ! means i will initialize the employee later | is or operator
 
   public deleteEmployee!:IEmployee | null;
-
 
   constructor(private employeeService:EmployeeService){}
   
@@ -34,18 +34,16 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
   set employeeFilter(filter:string){//employeeFilter in template is bind to this property [(ngModel)]="employeeFilter" // the filter parameter contains the value of input field employeeFilter in html
-    this._employeeFilter=filter;
-
-    this.filteredEmployee = this.performEmployeeFilter(filter);
+    this._employeeFilter=filter; //_employeeFilter is equal to the value of the input field
+    this.filteredEmployee = this.performEmployeeFilter(this._employeeFilter);
   }
 
    public performEmployeeFilter(filter:string){
         return this.employeeList.filter((e)=> {return e.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())});
    }
   ngOnInit():void{
-    this.getEmployees(); // call the api on initialisation
-    // this.getEmployees2(); // set the employee variable
-    // this._employeeFilter='emma';
+    // this.getEmployees(); // call the api on initialisation
+    this.getEmployees2(); // set the employee variable
   }
 
   private getEmployees():void{
@@ -60,7 +58,7 @@ export class AppComponent implements OnInit,OnDestroy {
   }
   private getEmployees2():void{
     this.sub=this.employeeService.getEmployees().subscribe({
-      next:employee=>{this.employeeList=employee;},
+      next:employee=>{this.employeeList=employee;this.filteredEmployee=employee},
       error:err=>{alert(err.message);},
       complete:()=>{
         console.log("reception of data completed");
@@ -92,7 +90,6 @@ export class AppComponent implements OnInit,OnDestroy {
     {
       btn.setAttribute('data-target','#employeeDeleteModal');
       this.deleteEmployee = employee;
-
 
     }else if (mode==='update'){
       btn.setAttribute('data-target','#employeeUpdateModal');
@@ -150,5 +147,3 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
 }
-
-
