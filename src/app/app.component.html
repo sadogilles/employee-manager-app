@@ -17,7 +17,7 @@
                 </div>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" (ngModelChange)="searchEmployee($event)" name="key" ngModel>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" #key="ngModel" (ngModelChange)="searchEmployee(key.value)" name="key" ngModel>
             </form>
             </div>
         </nav>
