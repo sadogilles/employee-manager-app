@@ -13,6 +13,7 @@ import { IEmployee } from './iemployee';
 export class AppComponent implements OnInit,OnDestroy {
 
 
+
   title = 'Employee Management Application';
   
   sub!:Subscription; //subscription variable
@@ -27,7 +28,6 @@ export class AppComponent implements OnInit,OnDestroy {
 
   public deleteEmployee!:IEmployee | null;
 
-
   constructor(private employeeService:EmployeeService){}
   
   get employeeFilter(){ //employeeFilter in template is bind to this property [(ngModel)]="employeeFilter"
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit,OnDestroy {
 
   set employeeFilter(filter:string){//employeeFilter in template is bind to this property [(ngModel)]="employeeFilter" // the filter parameter contains the value of input field employeeFilter in html
     this._employeeFilter=filter; //_employeeFilter is equal to the value of the input field
-    this.filteredEmployee = this.performEmployeeFilter(this._employeeFilter); // or filter
+    this.filteredEmployee = this.performEmployeeFilter(this._employeeFilter);
   }
 
    public performEmployeeFilter(filter:string){
@@ -50,12 +50,28 @@ export class AppComponent implements OnInit,OnDestroy {
         }
         );
    }
+
+  //  performing filter way 2 using ngModalChange 
+  searchEmployee(key: any) {
+     console.log(key);
+     const results:IEmployee[]=[];
+     for(const employee of this.employeeList){
+        if(employee.name.toLowerCase().indexOf(key.toLocaleLowerCase())!==-1){
+          results.push(employee);
+        }
+     }
+     this.employeeList = results;
+     if(results.length===0 || !key){ // if employee isnot found or no key is set, get the employee
+      this.getEmployees2();
+     }
+    }
+
   ngOnInit():void{
     // this.getEmployees(); // call the api on initialisation
     this.getEmployees2(); // set the employee variable
   }
 
-  private getEmployees():void{
+  private getEmployees():void{ 
     this.sub=this.employeeService.getEmployees().subscribe( //deprecated
     (response:IEmployee[])=>{
       this.employeeList = response;
@@ -99,7 +115,6 @@ export class AppComponent implements OnInit,OnDestroy {
     {
       btn.setAttribute('data-target','#employeeDeleteModal');
       this.deleteEmployee = employee;
-
 
     }else if (mode==='update'){
       btn.setAttribute('data-target','#employeeUpdateModal');
@@ -157,5 +172,3 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
 }
-
-
