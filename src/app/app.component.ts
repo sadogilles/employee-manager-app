@@ -13,7 +13,6 @@ import { IEmployee } from './iemployee';
 export class AppComponent implements OnInit,OnDestroy {
 
 
-
   title = 'Employee Management Application';
   
   sub!:Subscription; //subscription variable
@@ -28,6 +27,7 @@ export class AppComponent implements OnInit,OnDestroy {
 
   public deleteEmployee!:IEmployee | null;
 
+
   constructor(private employeeService:EmployeeService){}
   
   get employeeFilter(){ //employeeFilter in template is bind to this property [(ngModel)]="employeeFilter"
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit,OnDestroy {
 
   set employeeFilter(filter:string){//employeeFilter in template is bind to this property [(ngModel)]="employeeFilter" // the filter parameter contains the value of input field employeeFilter in html
     this._employeeFilter=filter; //_employeeFilter is equal to the value of the input field
-    this.filteredEmployee = this.performEmployeeFilter(this._employeeFilter);
+    this.filteredEmployee = this.performEmployeeFilter(this._employeeFilter); // or filter
   }
 
    public performEmployeeFilter(filter:string){
@@ -56,7 +56,11 @@ export class AppComponent implements OnInit,OnDestroy {
      console.log(key);
      const results:IEmployee[]=[];
      for(const employee of this.employeeList){
-        if(employee.name.toLowerCase().indexOf(key.toLocaleLowerCase())!==-1){
+        if(employee.name.toLowerCase().indexOf(key.toLocaleLowerCase())!==-1
+          ||employee.email.toLowerCase().indexOf(key.toLocaleLowerCase())!==-1
+          ||employee.employeeCode.toLowerCase().indexOf(key.toLocaleLowerCase())!==-1
+          ||employee.jobTitle.toLowerCase().indexOf(key.toLocaleLowerCase())!==-1
+        ){
           results.push(employee);
         }
      }
@@ -116,6 +120,7 @@ export class AppComponent implements OnInit,OnDestroy {
       btn.setAttribute('data-target','#employeeDeleteModal');
       this.deleteEmployee = employee;
 
+
     }else if (mode==='update'){
       btn.setAttribute('data-target','#employeeUpdateModal');
       this.editEmployee=employee; // get the employee to display in ui
@@ -172,3 +177,5 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
 }
+
+
